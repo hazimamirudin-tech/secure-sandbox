@@ -1,0 +1,26 @@
+name: "Terraform CI"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  terraform:
+    name: "Terraform Lint & Validate"
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform Engine
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.0
+
+      - name: Validate Terraform Syntax
+        run: |
+          terraform init -backend=false
+          terraform validate
